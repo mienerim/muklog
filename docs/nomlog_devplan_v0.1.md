@@ -11,11 +11,11 @@
 목표: "빈 화면이지만 로그인해서 들어가지는" 앱이 뜬다.
 
 ### 백엔드
-- [ ] Spring Boot 프로젝트 초기화 (Gradle, 패키지 구조 설계)
-- [ ] PostgreSQL 연결 설정 (로컬 개발 DB — DevSpace 경험 재사용 가능)
-- [ ] `User`, `Record` 엔티티 및 테이블 마이그레이션 (Flyway 또는 JPA DDL) — 확정된 ERD 그대로 반영
-- [ ] 구글 OAuth 연동 (Spring Security + OAuth2 Client) — 로그인 성공 시 JWT 발급까지
-- [ ] 헬스체크 API 하나 만들어서 배포 파이프라인 최소 확인 (`GET /health`)
+- [x] Spring Boot 프로젝트 초기화 (Gradle, 패키지 구조 설계)
+- [x] PostgreSQL 연결 설정 (로컬 개발 DB — DevSpace 경험 재사용 가능)
+- [x] `User`, `Record` 엔티티 및 테이블 마이그레이션 (Flyway 또는 JPA DDL) — 확정된 ERD 그대로 반영
+- [x] 구글 OAuth 연동 (Spring Security + OAuth2 Client) — 로그인 성공 시 JWT 발급까지 (실제 구현은 모바일 앱에 맞춰 Google ID Token 서버 검증 + 자체 JWT 발급 방식으로 진행, `.oauth2Login()` 리다이렉트 플로우 대신)
+- [x] 헬스체크 API 하나 만들어서 배포 파이프라인 최소 확인 (`GET /health`)
 
 ### 프론트엔드
 - [ ] Flutter 프로젝트 초기화, 폴더 구조 설계 (feature-first 또는 layer-first 택1)
@@ -35,12 +35,12 @@
 목표: 기록을 추가/조회/수정/삭제할 수 있고, 홈 화면에서 실제 데이터가 보인다.
 
 ### 백엔드
-- [ ] `POST /records` — 기록 생성 (food_name, category, image_url, eaten_at)
-- [ ] `GET /records?date=` — 특정 날짜 기록 목록 조회
-- [ ] `PATCH /records/{id}` — 기록 수정
-- [ ] `DELETE /records/{id}` — 기록 삭제
-- [ ] `GET /records/autocomplete?q=` — food_name/category 자동완성 (과거 기록 기반 접두어 검색)
-- [ ] 이미지 업로드용 presigned URL 발급 API (스토리지는 S3 호환 or Supabase Storage 등 가벼운 걸로)
+- [x] `POST /records` — 기록 생성 (food_name, category, image_url, eaten_at)
+- [x] `GET /records?date=` — 특정 날짜 기록 목록 조회
+- [x] `PATCH /records/{id}` — 기록 수정
+- [x] `DELETE /records/{id}` — 기록 삭제
+- [x] `GET /records/autocomplete?q=` — food_name/category 자동완성 (과거 기록 기반 접두어 검색)
+- [ ] 이미지 업로드용 presigned URL 발급 API (스토리지는 S3 호환 or Supabase Storage 등 가벼운 걸로) — 스토리지 계정 미확정으로 보류
 
 ### 프론트엔드
 - [ ] 기록 추가 화면 구현 (와이어프레임 v2 반영: 텍스트 입력 + 자동완성 + 카테고리 pill + 시간 자동값 + 사진 선택)
