@@ -1,3 +1,5 @@
 .playwright-mcp/
 .vscode/
 audience-check.png
+backend/*.log
+*.png
