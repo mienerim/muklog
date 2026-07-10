@@ -18,13 +18,23 @@
 - [x] 헬스체크 API 하나 만들어서 배포 파이프라인 최소 확인 (`GET /health`)
 
 ### 프론트엔드
-- [ ] Flutter 프로젝트 초기화, 폴더 구조 설계 (feature-first 또는 layer-first 택1)
-- [ ] 구글 로그인 SDK 연동, 로그인 화면 UI
-- [ ] 로그인 성공 시 홈 화면(빈 상태)으로 이동하는 라우팅
+- [x] Flutter SDK 설치 (3.44.6 stable, 로컬 환경)
+- [x] Flutter 프로젝트 초기화 (`frontend/`, org `com.nomlog`, android/ios/web/windows 타겟 포함, Chrome에서 기본 화면 구동 확인)
+- [ ] 폴더 구조 설계 (feature-first 또는 layer-first 택1) — 현재는 기본 스캐폴드(`lib/main.dart`) 상태, 아직 미설계
+- [ ] Android SDK 설치 (Android Studio) — 실제 Android 기기/에뮬레이터 실행에 필요, 아직 미설치
+- [x] 구글 로그인 SDK 연동, 로그인 화면 UI — Flutter Web 대상으로 구현 완료 (`google_sign_in` v7 + `google_sign_in_web`, `lib/screens/login_screen.dart`, `lib/services/auth_service.dart`). Android/iOS 네이티브 로그인은 별도 OAuth 클라이언트 필요해서 스코프 아님 (아래 항목 참고)
+- [x] 로그인 성공 시 홈 화면(빈 상태)으로 이동하는 라우팅 — `lib/screens/home_screen.dart` + `pushReplacement` 구현 완료
+- [ ] **구글 로그인 실제 동작 검증 (E2E)** — 코드/설정은 다 됐지만 아직 미완료. 진행 중 발견/해결한 이슈:
+  - 웹 클라이언트에 Authorized JavaScript origin(`http://localhost:5000`) 누락되어 있던 것 발견 → Cloud Console에서 추가함. 다만 구글 쪽 설정 반영에 지연이 있어("5분~몇 시간 걸릴 수 있음" 안내) 아직 "origin not allowed" 에러로 검증 대기 중
+  - 백엔드에 CORS 설정이 아예 없어서 (원래 모바일 전용 설계라 불필요했음) Flutter Web에서 `POST /auth/google` 호출이 브라우저에 의해 차단됨 → `SecurityConfig`에 개발용 CORS 설정 추가로 해결 (`http://localhost:5000` 허용)
+  - 로컬 테스트용으로 Postgres는 Docker 컨테이너(포트 55432, 다른 프로젝트와 충돌 방지), 백엔드는 포트 8081로 임시 실행 중 (다른 로컬 프로젝트가 5432/8080을 이미 점유하고 있어서) — 영구 설정 아님, 임시 검증용
 
 ### 배포/인프라
 - [ ] Cloudtype 또는 유사 플랫폼에 백엔드 배포 파이프라인 최소 구성
-- [ ] 구글 Cloud Console에 OAuth 클라이언트 등록 (웹/안드로이드/iOS 각각)
+- [x] 구글 Cloud Console 프로젝트(`nomlog-yumi`) OAuth 동의 화면 구성 (외부, 테스트 중) + 테스트 사용자 등록 (본인 + 지인 1명)
+- [x] 구글 Cloud Console에 OAuth 클라이언트 등록 — 웹 (백엔드 ID 토큰 검증용, `GOOGLE_CLIENT_ID`로 반영 완료; Authorized JavaScript origin `http://localhost:5000`도 추가 완료, 전파 대기 중)
+- [ ] 구글 Cloud Console에 OAuth 클라이언트 등록 — Android (패키지명 + SHA-1 인증서 지문 필요, Flutter 프로젝트는 생성됐으니 진행 가능)
+- [ ] 구글 Cloud Console에 OAuth 클라이언트 등록 — iOS (번들 ID 필요)
 
 **주차 끝 확인 지점**: 구글 로그인 → 빈 홈 화면 진입까지 실제 기기에서 동작.
 
