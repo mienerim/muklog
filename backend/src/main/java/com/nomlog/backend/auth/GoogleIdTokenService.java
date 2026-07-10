@@ -22,7 +22,9 @@ public class GoogleIdTokenService {
                 throw new InvalidGoogleTokenException("Invalid Google ID token");
             }
             return idToken.getPayload();
-        } catch (GeneralSecurityException | IOException e) {
+        } catch (GeneralSecurityException | IOException | IllegalArgumentException e) {
+            // GoogleIdTokenVerifier#verify throws IllegalArgumentException (rather than
+            // returning null) when the input isn't even well-formed JWT (e.g. no dots).
             throw new InvalidGoogleTokenException("Failed to verify Google ID token");
         }
     }
