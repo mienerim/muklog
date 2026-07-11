@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:nomlog/main.dart';
+import 'package:muklog/main.dart';
 
 void main() {
   testWidgets('shows the login screen on launch', (WidgetTester tester) async {
-    await tester.pumpWidget(const NomlogApp());
+    await tester.pumpWidget(const MuklogApp());
 
-    expect(find.text('nomlog 로그인'), findsOneWidget);
+    expect(find.text('muklog 로그인'), findsOneWidget);
   });
 }

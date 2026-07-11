@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('nomlog 로그인')),
+      appBar: AppBar(title: const Text('muklog 로그인')),
       body: Center(
         child: _loading
             ? const CircularProgressIndicator()

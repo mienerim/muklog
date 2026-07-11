@@ -1,6 +1,6 @@
 {
-    "name": "nomlog",
-    "short_name": "nomlog",
+    "name": "muklog",
+    "short_name": "muklog",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

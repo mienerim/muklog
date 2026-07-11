@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'screens/login_screen.dart';
 
 void main() {
-  runApp(const NomlogApp());
+  runApp(const MuklogApp());
 }
 
-class NomlogApp extends StatelessWidget {
-  const NomlogApp({super.key});
+class MuklogApp extends StatelessWidget {
+  const MuklogApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'nomlog',
+      title: 'muklog',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
       ),

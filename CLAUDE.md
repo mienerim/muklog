@@ -6,20 +6,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 `backend/` has a Spring Boot project scaffolded (see Backend section below). `frontend/` is still an empty placeholder — no Flutter project exists yet. There are no frontend commands to run until it's scaffolded; update this file once it is.
 
-Do not invent commands or architecture that aren't backed by what's actually in the repo — check `docs/nomlog_devplan_v0.1.md` for the current confirmed plan before assuming a structure exists.
+Do not invent commands or architecture that aren't backed by what's actually in the repo — check `docs/muklog_devplan_v0.1.md` for the current confirmed plan before assuming a structure exists.
 
 ## Backend
 
-Spring Boot 4.1.0, Java 21, Gradle. Group `com.nomlog`, artifact `backend`, base package `com.nomlog.backend`. Dependencies: Spring Web, Spring Data JPA, PostgreSQL driver, Spring Security, Spring Validation, `google-api-client` (Google ID token verification), `jjwt` (app JWT issuance/parsing). No `spring-boot-starter-security-oauth2-client` — deliberately removed, see Auth below.
+Spring Boot 4.1.0, Java 21, Gradle. Group `com.muklog`, artifact `backend`, base package `com.muklog.backend`. Dependencies: Spring Web, Spring Data JPA, PostgreSQL driver, Spring Security, Spring Validation, `google-api-client` (Google ID token verification), `jjwt` (app JWT issuance/parsing). No `spring-boot-starter-security-oauth2-client` — deliberately removed, see Auth below.
 
 Commands (run from `backend/`):
 - Build: `./gradlew build`
 - Compile only: `./gradlew compileJava`
 - Run: `./gradlew bootRun`
 - Test: `./gradlew test`
-- Single test: `./gradlew test --tests "com.nomlog.backend.SomeClassTest"`
+- Single test: `./gradlew test --tests "com.muklog.backend.SomeClassTest"`
 
-`NomlogApplicationTests.contextLoads` requires a live Postgres connection (`DB_HOST` etc.) and fails without one — expected in an environment with no local Postgres, not a regression signal by itself.
+`MuklogApplicationTests.contextLoads` requires a live Postgres connection (`DB_HOST` etc.) and fails without one — expected in an environment with no local Postgres, not a regression signal by itself.
 
 Datasource, Google client id, and JWT secret/expiration are read from env vars in `application.properties` (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USERNAME`, `DB_PASSWORD`, `GOOGLE_CLIENT_ID`, `JWT_SECRET`, `JWT_EXPIRATION_MINUTES`) with local-dev defaults — set these when running against a real Postgres/Google app instead of editing the properties file directly. `JWT_SECRET` must be at least 32 bytes (HMAC-SHA256 requirement).
 
@@ -40,7 +40,7 @@ Presigned-URL image upload and stats endpoints are not implemented yet (excluded
 
 ## What this project is
 
-"뭐먹었지" (working title) is a personal food-logging app: log what you ate with minimal friction, review it as monthly/yearly stats, optionally share a stat/record as an image card with a small group of friends. It is explicitly **not** a calorie/diet-tracking app — the differentiator is "record for fun/reflection," not "manage/lose weight." Full rationale, competitive research, and scope are in `docs/nomlog_PRD_v0.1.md`.
+"뭐먹었지" (working title) is a personal food-logging app: log what you ate with minimal friction, review it as monthly/yearly stats, optionally share a stat/record as an image card with a small group of friends. It is explicitly **not** a calorie/diet-tracking app — the differentiator is "record for fun/reflection," not "manage/lose weight." Full rationale, competitive research, and scope are in `docs/muklog_PRD_v0.1.md`.
 
 ## Confirmed stack (per devplan)
 
@@ -49,7 +49,7 @@ Presigned-URL image upload and stats endpoints are not implemented yet (excluded
 - Deployment target: Cloudtype (or similar) for backend; direct APK / TestFlight for client distribution — no app store listing in this sprint.
 - Image storage: S3-compatible or Supabase Storage via presigned upload URLs (not yet chosen).
 
-## Planned architecture (from `docs/nomlog_devplan_v0.1.md`)
+## Planned architecture (from `docs/muklog_devplan_v0.1.md`)
 
 The core domain is intentionally small: two entities, `User` and `Record` (food_name, category, image_url, eaten_at). Statistics are **not** a separate stored/aggregated table — monthly/yearly stats are computed as aggregation queries over `Record` directly (`GET /stats/monthly`, `GET /stats/yearly`). Preserve this "no separate stats table" design if implementing stats — it's a deliberate simplicity choice, not an oversight.
 
@@ -67,7 +67,7 @@ API surface:
 
 ## Repo layout
 
-- `docs/` — PRD (`nomlog_PRD_v0.1.md`) and execution plan (`nomlog_devplan_v0.1.md`), both in Korean. Treat the devplan's checkbox list as the actual backlog/task granularity Claude Code should expect to be given (e.g. "구글 OAuth 연동해줘" rather than "1주차 백엔드 다 해줘").
+- `docs/` — PRD (`muklog_PRD_v0.1.md`) and execution plan (`muklog_devplan_v0.1.md`), both in Korean. Treat the devplan's checkbox list as the actual backlog/task granularity Claude Code should expect to be given (e.g. "구글 OAuth 연동해줘" rather than "1주차 백엔드 다 해줘").
 - `backend/` — Spring Boot project, see Backend section above.
 - `frontend/` — empty, awaiting Flutter scaffolding.
 - `.claude/skills/db-mocker/` — currently an empty skill stub.

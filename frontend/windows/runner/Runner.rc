@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.nomlog" "\0"
-            VALUE "FileDescription", "nomlog" "\0"
+            VALUE "CompanyName", "com.muklog" "\0"
+            VALUE "FileDescription", "muklog" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "nomlog" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 com.nomlog. All rights reserved." "\0"
-            VALUE "OriginalFilename", "nomlog.exe" "\0"
-            VALUE "ProductName", "nomlog" "\0"
+            VALUE "InternalName", "muklog" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 com.muklog. All rights reserved." "\0"
+            VALUE "OriginalFilename", "muklog.exe" "\0"
+            VALUE "ProductName", "muklog" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
