@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = nomlog
+PRODUCT_NAME = muklog
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.nomlog.nomlog
+PRODUCT_BUNDLE_IDENTIFIER = com.muklog.muklog
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2026 com.nomlog. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2026 com.muklog. All rights reserved.
