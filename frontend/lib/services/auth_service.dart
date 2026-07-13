@@ -11,8 +11,11 @@ import 'package:http/http.dart' as http;
 const String kServerClientId =
     '925205002034-uvbqgamji5hiqvrkik74kmqbe3jivq2m.apps.googleusercontent.com';
 
-/// Android emulator reaches the host machine's localhost via 10.0.2.2.
-const String kBackendBaseUrl = 'http://10.0.2.2:8081';
+/// Points at the host machine's backend through an adb reverse tunnel:
+///   adb reverse tcp:8081 tcp:8081
+/// Run that once per USB connection. Works for both a physical device and the
+/// emulator, since the phone's own localhost:8081 is forwarded to the PC.
+const String kBackendBaseUrl = 'http://localhost:8081';
 
 class AuthService {
   AuthService._();

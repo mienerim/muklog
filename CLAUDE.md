@@ -51,14 +51,17 @@ Flutter app in `frontend/`, **Android-first** (iOS/web not wired up). Package/`a
 Commands (run from `frontend/`):
 - Get deps: `flutter pub get`
 - Analyze: `flutter analyze`
-- Run on emulator: `flutter run -d <android-emulator>`
+- Open the backend tunnel (once per USB connection, resets on reboot/reconnect): `adb reverse tcp:8081 tcp:8081`
+- Run on a device/emulator: `flutter run -d <device-id>` (list with `flutter devices`)
 - Debug keystore SHA-1 (needed for Google Cloud setup below): `cd android && ./gradlew signingReport`
 
 Structure: `lib/main.dart` (launches `LoginScreen`) → `lib/screens/login_screen.dart` (a "Google로 로그인" button calls `GoogleSignIn.instance.authenticate()`; results arrive via the `authenticationEvents` stream) → `lib/services/auth_service.dart` (`AuthService` singleton). `AuthService` initializes with `serverClientId: kServerClientId` (the web client id), obtains `account.authentication.idToken`, POSTs `{"idToken": ...}` to `$kBackendBaseUrl/auth/google`, and stores the returned `accessToken` in memory (no persistence yet).
 
 Two dev-environment constants in `auth_service.dart`:
 - `kServerClientId` — the **web** OAuth client id (see Auth flow above for why it's the web one).
-- `kBackendBaseUrl` — `http://10.0.2.2:8081` (Android emulator's alias for the host machine's localhost; not `localhost`). `AndroidManifest.xml` sets `usesCleartextTraffic="true"` to permit this plaintext HTTP in dev — switch to HTTPS and drop that for any real deployment.
+- `kBackendBaseUrl` — `http://localhost:8081`, reached through an **adb reverse tunnel** (`adb reverse tcp:8081 tcp:8081`, run once per USB connection). This works for both a physical device (USB) and the emulator, since the device's own `localhost:8081` is forwarded to the host PC — no LAN IP or same-WiFi requirement. The tunnel resets on reboot/reconnect; a `SocketException` at login usually means it needs re-running. `AndroidManifest.xml` sets `usesCleartextTraffic="true"` to permit this plaintext HTTP in dev — switch to HTTPS and drop that for any real deployment.
+
+Physical-device note: no extra Google Cloud registration is needed versus the emulator — a `flutter run` build from the same PC is signed with the same debug keystore, so the already-registered debug SHA-1 applies. A separately-signed release APK would need its own SHA-1 registered.
 
 **Required manual setup in Google Cloud Console** (can't be done in code; without it login fails with `No idToken returned` or 401):
 1. Build once (`flutter run` / `./gradlew signingReport`) to generate the debug keystore, then read its `SHA1:`.
