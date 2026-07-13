@@ -3,9 +3,16 @@ import 'dart:convert';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
-const String kGoogleClientId =
+/// The *web* OAuth client id. On Android this is passed as `serverClientId` so
+/// that Google issues an ID token whose `aud` equals this value — which is
+/// exactly what the backend verifies against (`app.google.client-id`). The
+/// Android OAuth client (type 1) itself is matched at runtime by package name +
+/// SHA-1 in the Google Cloud project, so it is not referenced here by id.
+const String kServerClientId =
     '925205002034-uvbqgamji5hiqvrkik74kmqbe3jivq2m.apps.googleusercontent.com';
-const String kBackendBaseUrl = 'http://localhost:8081';
+
+/// Android emulator reaches the host machine's localhost via 10.0.2.2.
+const String kBackendBaseUrl = 'http://10.0.2.2:8081';
 
 class AuthService {
   AuthService._();
@@ -19,7 +26,7 @@ class AuthService {
 
   Future<void> ensureInitialized() async {
     if (_initialized) return;
-    await _googleSignIn.initialize(clientId: kGoogleClientId);
+    await _googleSignIn.initialize(serverClientId: kServerClientId);
     _initialized = true;
   }
 

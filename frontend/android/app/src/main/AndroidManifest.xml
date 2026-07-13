@@ -1,8 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Required for the app to reach the backend over the network. Flutter
+         auto-adds this to the debug manifest, but declare it explicitly so
+         release builds keep network access too. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="muklog"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
             android:exported="true"

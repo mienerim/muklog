@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-// TODO: switch to a dart.library.js_interop conditional export before this
-// screen is ever compiled for Android/iOS — google_sign_in_web is web-only.
-import 'package:google_sign_in_web/web_only.dart' as gsi_web;
 
 import '../services/auth_service.dart';
 import 'home_screen.dart';
@@ -27,6 +24,29 @@ class _LoginScreenState extends State<LoginScreen> {
         onError: (Object e) => setState(() => _error = e.toString()),
       );
     });
+  }
+
+  Future<void> _startSignIn() async {
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      // v7 interactive sign-in. The result is delivered through the
+      // authenticationEvents stream, which _handleAuthEvent listens to.
+      await AuthService.instance.ensureInitialized();
+      await GoogleSignIn.instance.authenticate();
+    } catch (e) {
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('로그인 실패: $e')));
+      }
+    }
   }
 
   Future<void> _handleAuthEvent(GoogleSignInAuthenticationEvent event) async {
@@ -63,7 +83,11 @@ class _LoginScreenState extends State<LoginScreen> {
             : Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  gsi_web.renderButton(),
+                  ElevatedButton.icon(
+                    onPressed: _startSignIn,
+                    icon: const Icon(Icons.login),
+                    label: const Text('Google로 로그인'),
+                  ),
                   if (_error != null) ...[
                     const SizedBox(height: 16),
                     Text(_error!, style: const TextStyle(color: Colors.red)),
